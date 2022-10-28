@@ -1,11 +1,11 @@
 import './bootstrap';
 import { createApp } from 'vue/dist/vue.esm-bundler.js';
-// import HomeComponent from './components/Home.vue'
+import NavbarComponent from './navbar/Navbar.vue'
 import router from './router/index';
 const app=createApp({
-    // components: {
-    //     HomeComponent,
-    // }
+    components: {
+        NavbarComponent
+    }
 })
 
 app.use(router).mount('#app')
