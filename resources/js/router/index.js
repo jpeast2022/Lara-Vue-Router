@@ -1,13 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // import Navbar from '../navbar/Navbar.vue'
-import Login from '../components/Login.vue'
-import Register from '../components/register.vue'
+import Login from '../pages/Login.vue'
+import Register from '../pages/register.vue'
 import User from '../pages/UserPage.vue'
+import store from '../store/index.js'
 const routes = [
     {
         path: '/',
         name: 'Login',
         component: Login,
+        // meta: {title : 'Login'}
         meta:{
             requiresAuth:false
         },
@@ -16,6 +18,7 @@ const routes = [
         path: '/register',
         name: 'Register',
         component: Register,
+        // meta: {title : 'Register'}
         meta:{
             requiresAuth:false
         },
@@ -24,6 +27,7 @@ const routes = [
         path: '/user',
         name: 'User',
         component: User,
+        // meta: {title : 'User'}
         meta:{
             requiresAuth:true
         },
@@ -36,20 +40,19 @@ const router = createRouter({
     routes
 });
 
-let setToken = JSON.parse(localStorage.getItem('token'));
-console.log(setToken)
+
 // redirect user
-router.beforeEach((to,from)=>{
+router.beforeEach((to, from)=>{
     // auththentication is true and localStorage is not set
-    if(to.meta.requiresAuth && !setToken){
-        return { name : 'Login' }
+    if(to.meta.requiresAuth && store.getters.getToken == 0){
+        console.log(store.getters.getToken)
+        return { name : 'Login' }     
     }
-    // if(to.meta.requiresAuth == false && !localStorage.getItem('token')){
-    //     return { name : 'Register' }
-    // }
-    if(to.meta.requiresAuth == false && setToken){
+    if(to.meta.requiresAuth == false && store.getters.getToken != 0){
+        console.log(store.getters.getToken)
         return { name : 'User' }
     }
+    
 })
 
 export default router;
